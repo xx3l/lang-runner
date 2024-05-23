@@ -1,11 +1,10 @@
 #!/bin/bash
-EXT=js
 if [ $# -eq 0 ]
   then
-    echo "`basename $0` usage:"
-    echo " > `basename $0`		- this screen"
-    echo " > `basename $0` file.$EXT	- execute single file scenario in docker isolation"
-    echo " > `basename $0` <folder> file.$EXT - mount folder to container and launch scenario inside folder"
+    echo "LRUN usage:"
+    echo " > lrun			- this screen"
+    echo " > lrun <LANG> file.ext	- execute single file scenario in docker isolation"
+    echo " > lrun <folder> file.ext	- mount folder to container and launch scenario inside folder"
     exit -1
 fi
 
