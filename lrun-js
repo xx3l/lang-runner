@@ -1,0 +1,27 @@
+#!/bin/bash
+EXT=js
+if [ $# -eq 0 ]
+  then
+    echo "`basename $0` usage:"
+    echo " > `basename $0`		- this screen"
+    echo " > `basename $0` file.$EXT	- execute single file scenario in docker isolation"
+    echo " > `basename $0` <folder> file.$EXT - mount folder to container and launch scenario inside folder"
+    exit -1
+fi
+
+if [ $# -eq 1 ]
+  then
+    if [[ $1 != *$EXT ]]
+      then
+        echo "ERROR: wrong file extension"
+        exit -1
+    fi
+    if [ ! -f $1 ]
+      then
+        echo "ERROR: file $1 not found"
+        exit -1
+    fi
+    docker run -it -v./$1:/$1 --rm lr-js node $1
+    exit 0
+fi
+

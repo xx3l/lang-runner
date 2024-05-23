@@ -1,0 +1,2 @@
+#!/bin/bash
+docker run -it -v./$1:/$1 --rm lr-python python3 $1
