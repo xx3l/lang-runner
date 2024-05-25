@@ -1,2 +1,2 @@
 <?php
-print rand(1,100);
+print "Hello, World!\n";

@@ -3,24 +3,38 @@ if [ $# -eq 0 ]
   then
     echo "LRUN usage:"
     echo " > lrun			- this screen"
+    echo " > lrun <LANG>		- execute <LANG> console/shell"
     echo " > lrun <LANG> file.ext	- execute single file scenario in docker isolation"
-    echo " > lrun <folder> file.ext	- mount folder to container and launch scenario inside folder"
+    echo " > lrun <LANG> <folder> file.ext	- mount folder to container and launch scenario inside folder"
+    echo " supported <LANG> => "`docker images | grep ^lr | cut -f2 -d"-" | cut -f1 -d" " | xargs echo`
     exit -1
 fi
 
+[[ $1 == "ruby"   ]] && EXT=rb  && SH=ruby
+[[ $1 == "js"     ]] && EXT=js  && SH=node
+[[ $1 == "php"    ]] && EXT=php && SH=php
+[[ $1 == "python" ]] && EXT=py  && SH=python3
+[[ $1 == "cpp"    ]] && EXT=cpp && SH=/lang.sh
+
 if [ $# -eq 1 ]
   then
-    if [[ $1 != *$EXT ]]
+    docker run -it --rm lr-$1
+    exit 0
+fi
+
+if [ $# -eq 2 ]
+  then
+    if [[ $2 != *$EXT ]]
       then
         echo "ERROR: wrong file extension"
         exit -1
     fi
-    if [ ! -f $1 ]
+    if [ ! -f $2 ]
       then
-        echo "ERROR: file $1 not found"
+        echo "ERROR: file $2 not found"
         exit -1
     fi
-    docker run -it -v./$1:/$1 --rm lr-js node $1
+    docker run -it -v./$2:/$2 --rm lr-$1 $SH $2
     exit 0
 fi
 
