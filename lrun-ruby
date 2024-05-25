@@ -1,2 +1,0 @@
-#!/bin/bash
-docker run -it -v./$1:/$1 --rm lr-ruby ruby $1
