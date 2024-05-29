@@ -1,12 +1,16 @@
 #!/bin/bash
-if [ $# -eq 0 ]
-  then
+function usage() {
     echo "LRUN usage:"
     echo " > lrun			- this screen"
     echo " > lrun <LANG>		- execute <LANG> console/shell"
     echo " > lrun <LANG> file.ext	- execute single file scenario in docker isolation"
     echo " > lrun <LANG> <folder> file.ext	- mount folder to container and launch scenario inside folder"
     echo " supported <LANG> => "`docker images | grep ^lr | cut -f2 -d"-" | cut -f1 -d" " | xargs echo`
+}
+
+if [ $# -eq 0 ]
+  then
+    usage
     exit -1
 fi
 
@@ -38,3 +42,21 @@ if [ $# -eq 2 ]
     exit 0
 fi
 
+if [ $# -eq 3 ]
+  then
+    if [ ! -d $2 ]
+      then
+      echo "$2 is not folder - can't mount inside!"
+      exit -1
+    fi
+    if [[ $3 != *$EXT ]]
+      then
+        echo "ERROR: wrong file extension"
+        exit -1
+    fi
+    docker run -it -v./$2:/$2 --rm lr-$1 $SH $2/$3
+    exit 0
+fi
+echo "something wrong with parans"
+usage
+exit -1
