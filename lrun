@@ -14,11 +14,12 @@ if [ $# -eq 0 ]
     exit -1
 fi
 
-[[ $1 == "ruby"   ]] && EXT=rb  && SH=ruby
+[[ $1 == "cpp"    ]] && EXT=cpp && SH=/lang.sh
+[[ $1 == "go"     ]] && EXT=go  && SH="go run"
 [[ $1 == "js"     ]] && EXT=js  && SH=node
 [[ $1 == "php"    ]] && EXT=php && SH=php
 [[ $1 == "python" ]] && EXT=py  && SH=python3
-[[ $1 == "cpp"    ]] && EXT=cpp && SH=/lang.sh
+[[ $1 == "ruby"   ]] && EXT=rb  && SH=ruby
 
 if [ $# -eq 1 ]
   then
